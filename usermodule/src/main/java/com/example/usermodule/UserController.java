@@ -21,12 +21,6 @@ public class UserController {
 	private UserService service;
 	
 	
-	@GetMapping("/hello")
-	public String hello() 
-	{
-		return "Hello World!";
-	}
-	
 	// RESTful API methods for Retrieval operations
 	@GetMapping("/users")
 	public List<User> list()
@@ -50,20 +44,21 @@ public class UserController {
 	
 	// RESTful API method for Create operation
 	@PostMapping("/users")
-	public void add(User user)
+	public void addNewUser(@RequestBody User user)
 	{
 		service.save(user);
 	}
 	
 	// RESTful API method for Update operation
 	@PutMapping("/users/{id}")
-	public ResponseEntity<?> update(@RequestBody User user, @PathVariable Integer id)
+	public ResponseEntity<?> updateUser(@RequestBody User user, @PathVariable Integer id)
 	{
 	try
 	{
 		User existUser = service.get(id);
+		user.setId(existUser.getId());
 		service.save(user);
-		return new ResponseEntity<>(HttpStatus.OK);
+		return new ResponseEntity<User>(user,HttpStatus.OK);
 	}
 	catch (NoSuchElementException e)
 	{
@@ -72,11 +67,23 @@ public class UserController {
 	}
 	
 	// RESTful API method for Delete operation
-//	@DeleteMapping("/users/{id}")
-//	public void delete(@PathVariable Integer id)
-//	{
-//	service.delete(id);
-//	}
+	@DeleteMapping("/users/{id}")
+	public void deleteUser(@PathVariable Integer id)
+	{
+	service.delete(id);
+	}
 	
-
+	//RESTful API method for login operation
+	@GetMapping("/login")
+	public ResponseEntity<?> login(@RequestBody User user) 
+	{
+		return service.login(user);
+	}
+	
+	//RESTful API method for logout operation
+	@GetMapping("/logout")
+	public ResponseEntity<?> logout() 
+	{
+		return new ResponseEntity<>("Logout",HttpStatus.OK);
+	}
 }
