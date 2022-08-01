@@ -1,10 +1,9 @@
-package com.example.usermodule;
+package com.example.certificatemodule;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 @Repository
-public interface UserRepository extends JpaRepository<User,Integer>
-{
-	
+public interface CertificateRepository extends JpaRepository<Certificate,Integer> {
+
 }
