@@ -29,7 +29,6 @@ public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-
 	public Integer getId() {
 		return id;
 	}
